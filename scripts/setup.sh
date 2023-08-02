@@ -7,7 +7,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 # install packages
-pip install pandas numpy matplotlib seaborn scipy statsmodels nltk sklearn textblob pyLDAvis json base64 worldcloud scikit-learn
+pip install pandas numpy matplotlib seaborn scipy statsmodels nltk textblob pyLDAvis json base64 worldcloud scikit-learn
 
 # freeze requirements and save to requirements.txt
 pip freeze > requirements.txt
