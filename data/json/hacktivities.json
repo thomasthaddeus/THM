@@ -1,0 +1,15 @@
+{
+  "paginator": {
+    "totalDocs": 709,
+    "totalInPage": 0,
+    "limit": 30,
+    "page": 25,
+    "totalPages": 24,
+    "hasPrevPage": true,
+    "hasNextPage": false,
+    "prevPage": 24,
+    "nextPage": null
+  },
+  "rooms": [],
+  "success": true
+}
