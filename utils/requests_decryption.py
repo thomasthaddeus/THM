@@ -1,10 +1,22 @@
-"""
-_summary_
+"""requests_decryption.py
 
-_extended_summary_
+This script is designed to process and analyze data from an XML file containing 
+base64 encoded elements. It includes functionality to decode base64 encoded 
+content, strip HTTP headers from the decoded data, transform it into a pandas 
+DataFrame, and write the cleaned data to various file formats. Additionally, it 
+provides a visualization of the length distribution of the processed response 
+strings.
+
+The script starts by prompting the user to specify an output file format. It 
+then processes an XML file containing base64 encoded data, decodes this data, 
+and cleans it by stripping HTTP headers. The processed data is converted into a 
+pandas DataFrame for easy manipulation. The user can choose to export this data 
+to a CSV, JSON, Excel, or plain text file. Finally, the script visualizes the 
+lengths of the response strings in the data, providing insights into the 
+distribution of response sizes.
 
 Returns:
-    _type_: _description_
+    None: This script does not return any value but produces side effects such as file outputs and plots.
 """
 
 import json
@@ -15,6 +27,25 @@ import matplotlib.pyplot as plt
 
 
 def main():
+    """
+    The main function of the script. It orchestrates the flow of the program by 
+    calling other functions to process data, write to a file in the specified 
+    format, and visualize data.
+
+    This function starts by defining the paths for input and output files and 
+    asking the user to specify the output file format. It then calls the 
+    process_data function to process the XML data, the write_to_file function 
+    to save the processed data in the desired format, and the visualize_data 
+    function to display a histogram of response lengths.
+
+    The main function serves as the entry point of the script. It is 
+    responsible for initializing file paths, handling user input for file 
+    format selection, and coordinating the sequence of data processing, file 
+    writing, and data visualization.
+
+    Returns:
+        None: This function does not return a value.
+    """
     file_path = "D:/tryhackme_urls.json"
     output_path = "D:/responses/output"
 
@@ -29,15 +60,16 @@ def main():
 
 def decode_base64_in_xml(file_path):
     """
-    decode_base64_in_xml _summary_
-
-    _extended_summary_
+    Decodes base64 encoded data within XML elements. This function parses an 
+    XML file, locates elements with a base64 attribute set to 'true', decodes 
+    their content from base64 to hexadecimal format, and returns the results in 
+    a JSON format.
 
     Args:
-        file_path (_type_): _description_
+        file_path (str): The path to the XML file to be processed.
 
     Returns:
-        _type_: _description_
+        str: A JSON string representing the decoded hexadecimal data of each base64 element.
     """
     # Parse the XML file
     tree = ET.parse(file_path)
@@ -65,15 +97,16 @@ def decode_base64_in_xml(file_path):
 
 def strip_http_headers(data):
     """
-    strip_http_headers _summary_
-
-    _extended_summary_
+    Strips HTTP headers from a hex-encoded string of HTTP response data. 
+    Converts the hex string to bytes, decodes it into a UTF-8 string, and then 
+    separates and discards the headers to keep only the body of the response.
 
     Args:
-        data (_type_): _description_
+        data (str): The hex-encoded string containing the HTTP response data.
 
     Returns:
-        _type_: _description_
+        str: The body of the HTTP response after stripping off the headers, or the original data
+        if it can't be processed.
     """
     # Convert hex to bytes
     try:
@@ -98,15 +131,16 @@ def strip_http_headers(data):
 
 def process_data(file_path):
     """
-    process_data _summary_
-
-    _extended_summary_
+    Processes data from an XML file containing base64 encoded elements. This 
+    function decodes the base64 data, converts it to a pandas DataFrame, drops 
+    unnecessary columns, and applies the strip_http_headers function to clean 
+    the data.
 
     Args:
-        file_path (_type_): _description_
+        file_path (str): The path to the XML file containing the data.
 
     Returns:
-        _type_: _description_
+        pandas.DataFrame: A DataFrame containing the processed data.
     """
     # Run the function to get the results
     json_output = decode_base64_in_xml(file_path)
@@ -128,14 +162,14 @@ def process_data(file_path):
 
 def write_to_file(df, output_path, file_format):
     """
-    write_to_file _summary_
-
-    _extended_summary_
+    Writes a DataFrame to a file in a specified format. The function supports 
+    exporting the DataFrame to CSV, JSON, Excel, or plain text files.
 
     Args:
-        df (_type_): _description_
-        output_path (_type_): _description_
-        file_format (_type_): _description_
+        df (pandas.DataFrame): The DataFrame to be written to a file.
+        output_path (str): The path where the output file will be saved.
+        file_format (str): The format of the output file. Options are 'csv', 
+        'json', 'excel', or 'txt'.
     """
     if file_format == 'csv':
         df.to_csv(output_path, index=False)
@@ -153,12 +187,13 @@ def write_to_file(df, output_path, file_format):
 
 def visualize_data(df):
     """
-    visualize_data _summary_
-
-    _extended_summary_
+    Generates a histogram of the lengths of response strings in a DataFrame. 
+    This function adds a new column to the DataFrame for the length of each 
+    response and plots a histogram to visualize the distribution of these 
+    lengths.
 
     Args:
-        df (_type_): _description_
+        df (pandas.DataFrame): The DataFrame containing the response strings.
     """
     # Create a new column for the length of each response
     df["response_length"] = df["response"].str.len()
